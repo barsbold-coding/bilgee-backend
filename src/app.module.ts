@@ -8,6 +8,7 @@ import { User } from './models/user.model';
 import { Internship } from './models/internship.model';
 import { Favourite } from './models/favourite.model';
 import { Application } from './models/application.model';
+import { InternshipsModule } from './internships/internships.module';
 
 @Module({
   imports: [
@@ -18,8 +19,9 @@ import { Application } from './models/application.model';
       ...databaseConfig,
       models: [User, Internship, Favourite, Application],
     }),
-    UsersModule,
     AuthModule,
+    UsersModule,
+    InternshipsModule,
   ],
 })
 export class AppModule {}
