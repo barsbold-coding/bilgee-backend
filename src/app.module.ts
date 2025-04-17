@@ -9,6 +9,7 @@ import { Internship } from './models/internship.model';
 import { Favourite } from './models/favourite.model';
 import { Application } from './models/application.model';
 import { InternshipsModule } from './internships/internships.module';
+import { FavouritesModule } from './favourites/favourites.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { InternshipsModule } from './internships/internships.module';
     AuthModule,
     UsersModule,
     InternshipsModule,
+    FavouritesModule,
   ],
 })
 export class AppModule {}
