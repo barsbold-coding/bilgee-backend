@@ -5,10 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { QueryDto } from 'src/globals/dto/query.dto';
+import { paginate } from 'src/utils/pagination';
 import { User } from '../models/user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -34,19 +35,15 @@ export class UsersService {
       throw new ConflictException('Phone number already exists');
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
     // Create user
     return this.userModel.create({
       ...createUserDto,
-      password: hashedPassword,
     });
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.findAll({
-      attributes: { exclude: ['password'] },
+  async findAll(query: QueryDto) {
+    return this.userModel.findAndCountAll({
+      ...paginate(query),
     });
   }
 
@@ -61,7 +58,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({
+    const user = await this.userModel.scope('authService').findOne({
       where: { email },
     });
     if (!user) {
@@ -74,11 +71,6 @@ export class UsersService {
     const user = await this.userModel.findByPk(id);
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
-    }
-
-    // Hash password if provided
-    if (updateUserDto.password) {
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
     }
 
     await user.update(updateUserDto);

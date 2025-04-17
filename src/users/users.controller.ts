@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,6 +18,7 @@ import { AdminGuard } from '../auth/admin.guard';
 import { StudentGuard } from '../auth/student.guard';
 import { OrganisationGuard } from '../auth/organisation.guard';
 import { Role } from '../auth/role.enum';
+import { QueryDto } from 'src/globals/dto/query.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,8 +26,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard, AdminGuard)
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() query: QueryDto) {
+    return this.usersService.findAll(query);
   }
 
   @UseGuards(JwtAuthGuard)
