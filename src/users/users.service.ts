@@ -47,10 +47,8 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = await this.userModel.findByPk(id, {
-      attributes: { exclude: ['password'] },
-    });
+  async findOne(id: number) {
+    const user = await this.userModel.findByPk(id);
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }

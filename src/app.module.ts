@@ -10,6 +10,7 @@ import { Favourite } from './models/favourite.model';
 import { Application } from './models/application.model';
 import { InternshipsModule } from './internships/internships.module';
 import { FavouritesModule } from './favourites/favourites.module';
+import { ResumesModule } from './resumes/resumes.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FavouritesModule } from './favourites/favourites.module';
     UsersModule,
     InternshipsModule,
     FavouritesModule,
+    ResumesModule,
   ],
 })
 export class AppModule {}

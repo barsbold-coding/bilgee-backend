@@ -26,7 +26,7 @@ export enum UserRole {
 }))
 @Scopes({
   authService: {
-    attributes: ['id', 'email', 'phoneNumber', 'password'],
+    attributes: ['id', 'email', 'phoneNumber', 'password', 'role'],
   },
 })
 @Table({
