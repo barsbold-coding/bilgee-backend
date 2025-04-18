@@ -1,4 +1,3 @@
-// src/users/users.service.ts
 import {
   Injectable,
   ConflictException,
@@ -35,7 +34,6 @@ export class UsersService {
       throw new ConflictException('Phone number already exists');
     }
 
-    // Create user
     return this.userModel.create({
       ...createUserDto,
     });
@@ -73,7 +71,6 @@ export class UsersService {
 
     await user.update(updateUserDto);
 
-    // Fetch and return updated user without password
     return this.findOne(id);
   }
 

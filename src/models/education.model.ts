@@ -1,4 +1,3 @@
-// src/models/education.model.ts
 import {
   Column,
   DataType,

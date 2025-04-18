@@ -5,14 +5,12 @@ const bcrypt = require('bcrypt');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Helper function to create hashed passwords
     const hashPassword = async (password) => {
       const salt = await bcrypt.genSalt(10);
       return bcrypt.hash(password, salt);
     };
 
     await queryInterface.bulkInsert('User', [
-      // Admin user
       {
         name: 'Erdenebileg Altangerel',
         email: 'test@example.com',
@@ -22,8 +20,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      
-      // Organization users
       {
         name: 'Golomt',
         email: 'golomt@example.tld',
@@ -51,8 +47,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      
-      // Student users
       {
         name: 'Batbold Batsaikhan',
         email: 'batbold@example.tld',
@@ -97,11 +91,11 @@ module.exports = {
         role: 'student',
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
     ]);
   },
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('User', null, {});
-  }
+  },
 };

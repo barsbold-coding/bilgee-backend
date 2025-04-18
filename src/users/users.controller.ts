@@ -14,8 +14,6 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
-import { StudentGuard } from '../auth/student.guard';
-import { OrganisationGuard } from '../auth/organisation.guard';
 import { Role } from '../auth/role.enum';
 import { QueryDto } from 'src/globals/dto/query.dto';
 
@@ -61,24 +59,5 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
-  }
-
-  // Role-specific endpoints examples
-  @UseGuards(JwtAuthGuard, StudentGuard)
-  @Get('student/dashboard')
-  getStudentDashboard() {
-    return { message: 'Student dashboard' };
-  }
-
-  @UseGuards(JwtAuthGuard, OrganisationGuard)
-  @Get('organisation/dashboard')
-  getOrganisationDashboard() {
-    return { message: 'Organisation dashboard' };
-  }
-
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Get('admin/dashboard')
-  getAdminDashboard() {
-    return { message: 'Admin dashboard' };
   }
 }

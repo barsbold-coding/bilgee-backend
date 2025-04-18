@@ -24,10 +24,8 @@ export class FavouritesService {
     userId: number,
     addFavouriteDto: AddFavouriteDto,
   ): Promise<Favourite> {
-    // Check if internship exists
     await this.internshipsService.findOne(addFavouriteDto.internshipId);
 
-    // Check if already in favourites
     const existingFavourite = await this.favouriteModel.findOne({
       where: {
         userId,
