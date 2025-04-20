@@ -7,10 +7,12 @@ import {
   BeforeSave,
   DefaultScope,
   Scopes,
+  HasOne,
 } from 'sequelize-typescript';
 import { Internship } from './internship.model';
 import { Favourite } from './favourite.model';
 import { Application } from './application.model';
+import { Resume } from './resume.model';
 import * as bcrypt from 'bcrypt';
 
 export enum UserRole {
@@ -77,6 +79,9 @@ export class User extends Model {
   role: UserRole;
 
   // Relationships
+  // @HasOne(() => Resume, 'studentId')
+  // resume: Resume;
+
   @HasMany(() => Internship, 'employerId')
   internships: Internship[];
 

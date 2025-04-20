@@ -31,9 +31,6 @@ export class Resume extends Model {
   })
   studentId: number;
 
-  @BelongsTo(() => User)
-  student: User;
-
   @Column({
     type: DataType.STRING,
     allowNull: true,
@@ -63,6 +60,9 @@ export class Resume extends Model {
     allowNull: true,
   })
   certifications: string;
+
+  @BelongsTo(() => User)
+  student: User;
 
   @HasMany(() => Experience)
   experiences: Experience[];

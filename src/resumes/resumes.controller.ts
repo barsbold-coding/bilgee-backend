@@ -50,7 +50,7 @@ export class ResumesController {
       return await this.resumesService.findByStudentId(req.user.id);
     } catch (error) {
       if (error instanceof NotFoundException) {
-        return { exists: false };
+        return { absent: true };
       }
       throw error;
     }

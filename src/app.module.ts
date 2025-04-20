@@ -11,6 +11,7 @@ import { Application } from './models/application.model';
 import { InternshipsModule } from './internships/internships.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { ResumesModule } from './resumes/resumes.module';
+import { ApplicationsModule } from './applications/applications.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ResumesModule } from './resumes/resumes.module';
     InternshipsModule,
     FavouritesModule,
     ResumesModule,
+    ApplicationsModule,
   ],
 })
 export class AppModule {}
