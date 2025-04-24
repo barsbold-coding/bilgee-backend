@@ -78,32 +78,35 @@ export class ApplicationsService {
           model: User,
           as: 'student',
           attributes: ['id', 'name', 'email', 'phoneNumber'],
-          // include: [
-          //   {
-          //     model: Resume,
-          //     include: [Experience, Education],
-          //   },
-          // ],
         },
         {
           model: Internship,
           as: 'internship',
-          // include: [
-          //   {
-          //     model: User,
-          //     as: 'employer',
-          //     attributes: ['id', 'name', 'email'],
-          //   },
-          // ],
+          include: [
+            {
+              model: User,
+              as: 'employer',
+              attributes: ['id', 'name', 'email'],
+            },
+          ],
         },
       ],
     });
   }
 
   async findAllForEmployer(employerId: number, query: QueryApplicationDto) {
+    const where: WhereOptions = {};
+
+    if (query.internshipId) {
+      where.internshipId = query.internshipId;
+    }
+    if (query.status) {
+      where.status = query.status;
+    }
+
     return this.applicationModel.findAndCountAll({
       ...paginate(query),
-      where: query.status ? { status: query.status } : {},
+      where,
       include: [
         {
           model: User,
