@@ -7,6 +7,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
   Query,
   Request,
   UseGuards,
@@ -17,6 +18,7 @@ import { Role } from 'src/auth/role.enum';
 import { StudentGuard } from 'src/auth/student.guard';
 import { InternshipsService } from 'src/internships/internships.service';
 import { ApplicationsService } from './application.service';
+import { CreateApplicationDto } from './dto/create-application.dto';
 import { QueryApplicationDto } from './dto/query-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 
@@ -26,6 +28,18 @@ export class ApplicationsController {
     private readonly applicationsService: ApplicationsService,
     private readonly internshipService: InternshipsService,
   ) {}
+
+  @UseGuards(JwtAuthGuard, StudentGuard)
+  @Post()
+  async create(@Body() body: CreateApplicationDto, @Request() req) {
+    const internship = await this.internshipService.findOne(body.internshipId);
+
+    if (!internship) {
+      throw new ForbiddenException('Internship not found');
+    }
+
+    return this.applicationsService.create(body, req.user.id);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get()

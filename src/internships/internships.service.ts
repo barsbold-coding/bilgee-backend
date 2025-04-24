@@ -60,7 +60,7 @@ export class InternshipsService {
     });
   }
 
-  async findOne(id: number): Promise<Internship> {
+  async findOne(id: number) {
     const internship = await this.internshipModel.findByPk(id, {
       include: [
         {

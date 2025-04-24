@@ -45,12 +45,12 @@ export class FavouritesController {
 
   @UseGuards(JwtAuthGuard, StudentGuard)
   @Get('check/:internshipId')
-  checkIsFavourite(
+  async checkIsFavourite(
     @Param('internshipId') internshipId: string,
     @Request() req,
   ) {
     return {
-      isFavourite: this.favouritesService.checkIsFavourite(
+      isFavourite: await this.favouritesService.checkIsFavourite(
         req.user.id,
         +internshipId,
       ),

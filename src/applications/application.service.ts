@@ -76,14 +76,14 @@ export class ApplicationsService {
       include: [
         {
           model: User,
-          as: 'students',
+          as: 'student',
           attributes: ['id', 'name', 'email', 'phoneNumber'],
-          include: [
-            {
-              model: Resume,
-              include: [Experience, Education],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: Resume,
+          //     include: [Experience, Education],
+          //   },
+          // ],
         },
         {
           model: Internship,
