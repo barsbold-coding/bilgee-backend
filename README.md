@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+### 📄 `main.ts`
+NestJS аппликейшны **эхлэлийн файл** — эндээс `AppModule` ачааллаж, серверийг асаадаг.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+---
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 📄 `app.module.ts`
+NestJS-ийн үндсэн **root module**. Бүх модулиудыг нэгтгэж энд импортолдог.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 📁 `applications/`
+- Хэрэглэгчийн **өгсөн өргөдлүүдтэй** холбоотой бизнес логик.
+- `application.controller.ts` – HTTP хүсэлтүүдийг хүлээж авч `service` рүү дамжуулдаг.
+- `application.service.ts` – Бизнес логик, өгөгдлийн боловсруулалт.
+- `dto/` – Өргөдөл үүсгэх (`create`), хайх (`query`), засах (`update`) DTO төрлүүд.
+- `applications.module.ts` – Энэ модультэй холбоотой бүх controller/service-ийг нэгтгэдэг.
 
-## Installation
+---
 
-```bash
-$ yarn install
-```
+### 📁 `auth/`
+Хэрэглэгчийн **authentication болон authorization** хэсэг.
+- `auth.controller.ts`, `auth.service.ts` – Нэвтрэх, JWT үүсгэх, баталгаажуулах.
+- `jwt.strategy.ts`, `jwt-auth.guard.ts` – JWT ашиглаж нэвтрэлт шалгах.
+- `roles.guard.ts`, `roles.decorator.ts` – Role-оор нэвтрэхийг хянах.
+- `admin.guard.ts`, `organisation.guard.ts`, `student.guard.ts` – Ролиудад суурилсан custom guard-ууд.
+- `role.enum.ts` – Админ, байгууллага, оюутан гэх мэт **роль төрөл**.
 
-## Running the app
+---
 
-```bash
-# development
-$ yarn run start
+### 📁 `config/`
+- Аппын **настройк болон орчны тохиргоо**.
+- `database.config.ts` – DB connection-ын тохиргоо
+- `sequelize.config.js` – Sequelize CLI-д зориулсан тохиргоо
 
-# watch mode
-$ yarn run start:dev
+---
 
-# production mode
-$ yarn run start:prod
-```
+### 📁 `database/`
+Миграци болон seed файл
+- `migrations/` – DB-ийн бүтэц үүсгэх SQL скриптүүд (Sequelize ашигласан)
+- `seeders/` – Туршилтын (fake) дата DB-д нэмэх скриптүүд
 
-## Test
+---
 
-```bash
-# unit tests
-$ yarn run test
+### 📁 `favourites/`
+**Дуртай заруудтай** холбоотой хэсэг.
+- `add-favourite.dto.ts` – Дуртай зар нэмэх DTO
+- Controller, service, module нь нэрнээсээ тодорхой
 
-# e2e tests
-$ yarn run test:e2e
+---
 
-# test coverage
-$ yarn run test:cov
-```
+### 📁 `globals/`
+- Global төрлүүд эсвэл дахин ашиглагддаг DTO файлууд
+- `query.dto.ts` – Хуудаслалт эсвэл шүүлт хийхэд ашиглагддаг DTO
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 📁 `internships/`
+**Дадлагын заруудтай** холбоотой модулиуд.
+- CRUD логик бүхий controller, service
+- `create`, `update`, `query` DTO төрлүүд
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 📁 `models/`
+Sequelize ORM-д зориулсан **модель файлууд**
+- DB-ийн хүснэгт бүрт харгалзах `.model.ts` файл (жишээ: `user.model.ts`, `resume.model.ts` гэх мэт)
 
-## License
+---
 
-Nest is [MIT licensed](LICENSE).
+### 📁 `resumes/`
+Хэрэглэгчийн **CV/Resume** хэсэг.
+- `resumes.controller.ts`, `resumes.service.ts`, `resumes.module.ts`
+- `create/update` DTO-ууд education, experience, resume-д тус тус
+
+---
+
+### 📁 `users/`
+**Хэрэглэгчтэй** холбоотой логик.
+- `create-user.dto.ts`, `login-user.dto.ts`, `update-user.dto.ts`
+- Нэвтрэх, хэрэглэгч үүсгэх, шинэчлэх
+
+---
+
+### 📁 `utils/`
+- Ашигтай туслах функцүүд
+- `pagination.ts` – Хуудаслалтын логикыг энд бичсэн
