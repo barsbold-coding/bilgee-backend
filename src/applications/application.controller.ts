@@ -202,9 +202,7 @@ export class ApplicationsController {
         application.internshipId,
       );
       if (internship.employerId === req.user.id) {
-        console.log('hello');
         const res = await this.applicationsService.getApplicationResume(id);
-        console.log(res);
         return res;
       }
     }

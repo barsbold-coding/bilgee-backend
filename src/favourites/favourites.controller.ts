@@ -41,7 +41,6 @@ export class FavouritesController {
   @Get()
   async getFavourites(@Request() req, @Query() query: QueryDto) {
     const res = await this.favouritesService.getFavourites(req.user.id, query);
-    console.log(res);
     return res;
   }
 

@@ -159,7 +159,6 @@ export class ResumesService {
         });
 
         if (updateResumeDto.education.length > 0) {
-          console.log(updateResumeDto.education[0]);
           const educationEntries = updateResumeDto.education.map((edu) => ({
             ...edu,
             resumeId: id,
