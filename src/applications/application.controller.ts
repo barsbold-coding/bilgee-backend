@@ -176,4 +176,41 @@ export class ApplicationsController {
       'You do not have permission to view applications for this internship',
     );
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id/resume')
+  async getApplicationResume(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req,
+  ) {
+    const application = await this.applicationsService.findOne(id);
+
+    // Check permissions
+    if (req.user.role === Role.ADMIN) {
+      return this.applicationsService.getApplicationResume(id);
+    }
+
+    if (
+      req.user.role === Role.STUDENT &&
+      application.studentId === req.user.id
+    ) {
+      return this.applicationsService.getApplicationResume(id);
+    }
+
+    if (req.user.role === Role.ORGANISATION) {
+      const internship = await this.internshipService.findOne(
+        application.internshipId,
+      );
+      if (internship.employerId === req.user.id) {
+        console.log('hello');
+        const res = await this.applicationsService.getApplicationResume(id);
+        console.log(res);
+        return res;
+      }
+    }
+
+    throw new ForbiddenException(
+      'You do not have permission to view this application resume',
+    );
+  }
 }

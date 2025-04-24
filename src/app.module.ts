@@ -12,6 +12,9 @@ import { InternshipsModule } from './internships/internships.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { ResumesModule } from './resumes/resumes.module';
 import { ApplicationsModule } from './applications/applications.module';
+import { Resume } from './models/resume.model';
+import { Education } from './models/education.model';
+import { Experience } from './models/experience.model';
 
 @Module({
   imports: [
@@ -20,7 +23,15 @@ import { ApplicationsModule } from './applications/applications.module';
     }),
     SequelizeModule.forRoot({
       ...databaseConfig,
-      models: [User, Internship, Favourite, Application],
+      models: [
+        User,
+        Internship,
+        Favourite,
+        Application,
+        Resume,
+        Education,
+        Experience,
+      ],
     }),
     AuthModule,
     UsersModule,

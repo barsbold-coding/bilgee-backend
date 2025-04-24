@@ -88,13 +88,13 @@ export class ApplicationsService {
         {
           model: Internship,
           as: 'internship',
-          include: [
-            {
-              model: User,
-              as: 'employer',
-              attributes: ['id', 'name', 'email'],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: User,
+          //     as: 'employer',
+          //     attributes: ['id', 'name', 'email'],
+          //   },
+          // ],
         },
       ],
     });
@@ -109,24 +109,24 @@ export class ApplicationsService {
           model: User,
           as: 'student',
           attributes: ['id', 'name', 'email', 'phoneNumber'],
-          include: [
-            {
-              model: Resume,
-              include: [Experience, Education],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: Resume,
+          //     include: [Experience, Education],
+          //   },
+          // ],
         },
         {
           model: Internship,
           as: 'internship',
           where: { employerId },
-          include: [
-            {
-              model: User,
-              as: 'employer',
-              attributes: ['id', 'name', 'email'],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: User,
+          //     as: 'employer',
+          //     attributes: ['id', 'name', 'email'],
+          //   },
+          // ],
         },
       ],
     });
@@ -149,13 +149,13 @@ export class ApplicationsService {
         {
           model: Internship,
           as: 'internship',
-          include: [
-            {
-              model: User,
-              as: 'employer',
-              attributes: ['id', 'name', 'email'],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: User,
+          //     as: 'employer',
+          //     attributes: ['id', 'name', 'email'],
+          //   },
+          // ],
         },
       ],
     });
@@ -187,5 +187,31 @@ export class ApplicationsService {
     }
 
     await application.destroy();
+  }
+
+  async getApplicationResume(id: number) {
+    const app = await this.applicationModel.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'student',
+          attributes: ['id', 'name', 'email', 'phoneNumber'],
+        },
+      ],
+    });
+
+    if (!app) {
+      throw new NotFoundException(`Application with ID ${id} not found`);
+    }
+
+    const resume = await this.resumesService.findByStudentId(app.studentId);
+
+    if (!resume) {
+      throw new NotFoundException(
+        `Resume for application with ID ${id} not found`,
+      );
+    }
+
+    return resume;
   }
 }

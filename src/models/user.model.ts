@@ -78,9 +78,8 @@ export class User extends Model {
   })
   role: UserRole;
 
-  // Relationships
-  // @HasOne(() => Resume, 'studentId')
-  // resume: Resume;
+  @HasOne(() => Resume, 'studentId')
+  resume: Resume;
 
   @HasMany(() => Internship, 'employerId')
   internships: Internship[];

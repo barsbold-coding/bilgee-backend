@@ -41,11 +41,11 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
-      }
+      },
     });
   },
 
   async down(queryInterface, _) {
     await queryInterface.dropTable('User');
-  }
+  },
 };
