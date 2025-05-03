@@ -9,6 +9,7 @@ import {
   Request,
   UnauthorizedException,
   Query,
+  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { Role } from '../auth/role.enum';
 import { QueryDto } from 'src/globals/dto/query.dto';
+import { OrganisationFilterDto } from './dto/organisation-filter.dto';
 
 @Controller('users')
 export class UsersController {
@@ -53,6 +55,18 @@ export class UsersController {
     throw new UnauthorizedException(
       'You are not authorized to update this user',
     );
+  }
+
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Post(':id/approve')
+  approveOrganisation(@Param('id') id: string) {
+    return this.usersService.approveOrganisation(+id);
+  }
+
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Get('organisations')
+  findOrganisations(@Query() query: OrganisationFilterDto) {
+    return this.usersService.findOrganisations(query);
   }
 
   @UseGuards(JwtAuthGuard, AdminGuard)
