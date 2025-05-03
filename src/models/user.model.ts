@@ -78,6 +78,13 @@ export class User extends Model {
   })
   role: UserRole;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  })
+  verified: boolean;
+
   @HasOne(() => Resume, 'studentId')
   resume: Resume;
 
