@@ -20,7 +20,6 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // Check if email already exists
     const existingEmail = await this.userModel.findOne({
       where: { email: createUserDto.email },
     });
@@ -28,7 +27,6 @@ export class UsersService {
       throw new ConflictException('Email already exists');
     }
 
-    // Check if phone number already exists
     const existingPhone = await this.userModel.findOne({
       where: { phoneNumber: createUserDto.phoneNumber },
     });
@@ -36,7 +34,6 @@ export class UsersService {
       throw new ConflictException('Phone number already exists');
     }
 
-    // Set verified status based on role
     const verified = createUserDto.role !== UserRole.ORGANISATION;
 
     return this.userModel.create({
@@ -94,14 +91,14 @@ export class UsersService {
     return this.findOne(id);
   }
   async findOrganisations(query: OrganisationFilterDto) {
-    const whereClause: any = { role: UserRole.ORGANISATION };
+    const where: any = { role: UserRole.ORGANISATION };
 
-    if (query.verified !== undefined) {
-      whereClause.verified = query.verified;
+    if (query.verified) {
+      where.verified = query.verified;
     }
 
-    return this.userModel.findAndCountAll({
-      where: whereClause,
+    return await this.userModel.findAndCountAll({
+      where,
       ...paginate(query),
     });
   }

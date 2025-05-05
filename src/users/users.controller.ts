@@ -36,6 +36,12 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('organisations')
+  findOrganisations(@Query() query: OrganisationFilterDto) {
+    return this.usersService.findOrganisations(query);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
@@ -61,12 +67,6 @@ export class UsersController {
   @Post(':id/approve')
   approveOrganisation(@Param('id') id: string) {
     return this.usersService.approveOrganisation(+id);
-  }
-
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  @Get('organisations')
-  findOrganisations(@Query() query: OrganisationFilterDto) {
-    return this.usersService.findOrganisations(query);
   }
 
   @UseGuards(JwtAuthGuard, AdminGuard)

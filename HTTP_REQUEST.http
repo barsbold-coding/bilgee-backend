@@ -1,0 +1,15 @@
+###
+POST http://localhost:3000/api/auth/login
+
+{
+  "email": "test@example.com",
+  "password": "superPa$$"
+}
+
+###
+GET http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NjI5MDczNCwiZXhwIjoxNzQ2Mzc3MTM0fQ.6mB9Swhx6FDMoMuq0Yoq-7vhdjPRmDrr_WnsJdrkfZ0
+
+###
+GET http://localhost:3000/api/users/organisations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NjI5MDczNCwiZXhwIjoxNzQ2Mzc3MTM0fQ.6mB9Swhx6FDMoMuq0Yoq-7vhdjPRmDrr_WnsJdrkfZ0
