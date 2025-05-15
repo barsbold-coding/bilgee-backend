@@ -15,9 +15,10 @@ export class OrganisationGuard extends RolesGuard {
     if (!canProceed) return false;
 
     const { user } = context.switchToHttp().getRequest();
+    console.log(user);
     return (
       (user.role === Role.ORGANISATION || user.role === Role.ADMIN) &&
-      user.verified === true
+      user.verified
     );
   }
 }

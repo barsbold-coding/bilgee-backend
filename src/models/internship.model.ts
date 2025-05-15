@@ -5,7 +5,9 @@ import {
   Table,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
+import { Application } from './application.model';
 import { User } from './user.model';
 
 export enum InternshipStatus {
@@ -76,4 +78,7 @@ export class Internship extends Model {
     defaultValue: InternshipStatus.ACTIVE,
   })
   status: InternshipStatus;
+
+  @HasMany(() => Application)
+  applications: Application[];
 }

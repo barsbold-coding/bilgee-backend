@@ -5,8 +5,9 @@ import { CreateInternshipDto } from './dto/create-internship.dto';
 import { UpdateInternshipDto } from './dto/update-internship.dto';
 import { paginate } from 'src/utils/pagination';
 import { QueryInternshipDto } from './dto/query-internship.dto';
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { User } from 'src/models/user.model';
+import { Application } from 'src/models/application.model';
 
 @Injectable()
 export class InternshipsService {
@@ -50,13 +51,28 @@ export class InternshipsService {
     return this.internshipModel.findAndCountAll({
       where: whereConditions,
       ...paginate(query),
+      attributes: {
+        include: [
+          [
+            Sequelize.fn('COUNT', Sequelize.col('applications.id')),
+            'applicationCount',
+          ],
+        ],
+      },
       include: [
         {
           model: User,
           as: 'employer',
           attributes: ['id', 'name', 'email'],
         },
+        {
+          model: Application,
+          as: 'applications',
+          attributes: [],
+        },
       ],
+      group: ['Internship.id', 'employer.id'],
+      subQuery: false,
     });
   }
 
