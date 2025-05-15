@@ -27,30 +27,32 @@ export class InternshipsService {
   }
 
   async findAll(query: QueryInternshipDto) {
-    const whereConditions: any = {};
+    const where: any = {};
 
     if (query.title) {
-      whereConditions.title = {
+      where.title = {
         [Op.iLike]: `%${query.title}%`,
       };
     }
-
     if (query.location) {
-      whereConditions.location = {
+      where.location = {
         [Op.iLike]: `%${query.location}%`,
       };
     }
-
     if (query.employerId) {
-      whereConditions.employerId = query.employerId;
+      where.employerId = query.employerId;
+    }
+    if (query.internshipId) {
+      console.log(query.internshipId);
+      where.internshipId = query.internshipId;
     }
 
     // By default, only show active internships
-    whereConditions.status = InternshipStatus.ACTIVE;
+    where.status = InternshipStatus.ACTIVE;
 
     return this.internshipModel.findAndCountAll({
-      where: whereConditions,
       ...paginate(query),
+      where,
       attributes: {
         include: [
           [

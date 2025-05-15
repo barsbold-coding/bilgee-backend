@@ -1,10 +1,8 @@
-import { IsBoolean, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsOptional, IsString } from 'class-validator';
 import { QueryDto } from 'src/globals/dto/query.dto';
 
 export class OrganisationFilterDto extends QueryDto {
   @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => value === 'true')
-  verified?: boolean;
+  @IsString()
+  status?: string;
 }

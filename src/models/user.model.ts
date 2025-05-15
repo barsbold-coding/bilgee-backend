@@ -21,6 +21,12 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
+export enum UserStatus {
+  VERIFIED = 'verified',
+  PENDING = 'pending',
+  DECLINED = 'declined',
+}
+
 @DefaultScope(() => ({
   attributes: {
     exclude: ['password'],
@@ -28,7 +34,7 @@ export enum UserRole {
 }))
 @Scopes({
   authService: {
-    attributes: ['id', 'email', 'phoneNumber', 'password', 'role', 'verified'],
+    attributes: ['id', 'email', 'phoneNumber', 'password', 'role', 'status'],
   },
 })
 @Table({
@@ -78,12 +84,18 @@ export class User extends Model {
   })
   role: UserRole;
 
+  //   @Column({
+  //     type: DataType.BOOLEAN,
+  //     defaultValue: false,
+  //     allowNull: false,
+  //   })
+  //   verified: boolean;
   @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false,
+    type: DataType.ENUM(...Object.values(UserStatus)),
+    defaultValue: UserStatus.PENDING,
     allowNull: false,
   })
-  verified: boolean;
+  status: UserStatus;
 
   @HasOne(() => Resume, 'studentId')
   resume: Resume;

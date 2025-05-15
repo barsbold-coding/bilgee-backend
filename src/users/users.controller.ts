@@ -68,6 +68,11 @@ export class UsersController {
   approveOrganisation(@Param('id') id: string) {
     return this.usersService.approveOrganisation(+id);
   }
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Post(':id/decline')
+  decline(@Param('id') id: string) {
+    return this.usersService.declineOrganisation(+id);
+  }
 
   @UseGuards(JwtAuthGuard, AdminGuard)
   @Delete(':id')

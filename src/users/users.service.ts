@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { QueryDto } from 'src/globals/dto/query.dto';
 import { paginate } from 'src/utils/pagination';
-import { User, UserRole } from '../models/user.model';
+import { User, UserRole, UserStatus } from '../models/user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { OrganisationFilterDto } from './dto/organisation-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -34,11 +34,14 @@ export class UsersService {
       throw new ConflictException('Phone number already exists');
     }
 
-    const verified = createUserDto.role !== UserRole.ORGANISATION;
+    const status =
+      createUserDto.role !== UserRole.ORGANISATION
+        ? UserStatus.VERIFIED
+        : UserStatus.PENDING;
 
     return this.userModel.create({
       ...createUserDto,
-      verified,
+      status,
     });
   }
 
@@ -87,14 +90,27 @@ export class UsersService {
       throw new ForbiddenException('Only organisation users can be approved');
     }
 
-    await user.update({ verified: true });
+    await user.update({ status: UserStatus.VERIFIED });
+    return this.findOne(id);
+  }
+  async declineOrganisation(id: number) {
+    const user = await this.userModel.findByPk(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    if (user.role !== UserRole.ORGANISATION) {
+      throw new ForbiddenException('Only organisation users can be approved');
+    }
+
+    await user.update({ status: UserStatus.DECLINED });
     return this.findOne(id);
   }
   async findOrganisations(query: OrganisationFilterDto) {
     const where: any = { role: UserRole.ORGANISATION };
 
-    if (query.verified) {
-      where.verified = query.verified;
+    if (query.status) {
+      where.status = query.status;
     }
 
     return await this.userModel.findAndCountAll({

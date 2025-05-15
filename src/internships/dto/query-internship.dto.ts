@@ -14,4 +14,8 @@ export class QueryInternshipDto extends QueryDto {
   @IsOptional()
   @Type(() => Number)
   employerId?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  internshipId?: number;
 }

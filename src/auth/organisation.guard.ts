@@ -3,6 +3,7 @@ import { RolesGuard } from './roles.guard';
 import { Role } from './role.enum';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
+import { UserStatus } from 'src/models/user.model';
 
 @Injectable()
 export class OrganisationGuard extends RolesGuard {
@@ -18,7 +19,7 @@ export class OrganisationGuard extends RolesGuard {
     console.log(user);
     return (
       (user.role === Role.ORGANISATION || user.role === Role.ADMIN) &&
-      user.verified
+      user.status === UserStatus.VERIFIED
     );
   }
 }
