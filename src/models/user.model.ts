@@ -73,6 +73,12 @@ export class User extends Model {
   phoneNumber: string;
 
   @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  age: number;
+
+  @Column({
     type: DataType.STRING,
     allowNull: false,
   })
