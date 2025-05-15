@@ -15,6 +15,8 @@ import { ApplicationsModule } from './applications/applications.module';
 import { Resume } from './models/resume.model';
 import { Education } from './models/education.model';
 import { Experience } from './models/experience.model';
+import { Notification } from './models/notification.model';
+import { NotificationModule } from './notifications/notification.module';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { Experience } from './models/experience.model';
         Resume,
         Education,
         Experience,
+        Notification,
       ],
     }),
     AuthModule,
@@ -39,6 +42,7 @@ import { Experience } from './models/experience.model';
     FavouritesModule,
     ResumesModule,
     ApplicationsModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}
