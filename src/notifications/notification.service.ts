@@ -84,8 +84,8 @@ export class NotificationService {
     const notificationPromises = adminUsers.map((admin) => {
       return this.create({
         userId: admin.id,
-        title: 'New Organization Registration',
-        description: `New organization "${organizationName}" has registered and is pending approval.`,
+        title: 'Шинэ байгууллагын бүртгэл',
+        description: `"${organizationName}" шинэ байгууллага бүртгүүлсэн бөгөөд зөвшөөрлийг хүлээж байна.`,
         type: 'ORGANIZATION_REGISTRATION',
         metadata: { organizationId },
       });
@@ -97,9 +97,9 @@ export class NotificationService {
   async notifyOrganizationApproved(organizationId: number) {
     return this.create({
       userId: organizationId,
-      title: 'Organization Approved',
+      title: 'Байгууллага батлагдсан',
       description:
-        'Your organization has been approved. You can now access all features.',
+        'Танай байгууллагыг зөвшөөрлөө. Та одоо бүх функцэд хандах боломжтой.',
       type: 'ORGANIZATION_APPROVED',
       metadata: { status: UserStatus.VERIFIED },
     });
@@ -108,9 +108,9 @@ export class NotificationService {
   async notifyOrganizationDeclined(organizationId: number) {
     return this.create({
       userId: organizationId,
-      title: 'Organization Registration Declined',
+      title: 'Байгууллагыг бүртгэхээс татгалзсан',
       description:
-        'Your organization registration has been declined. Please contact support for more information.',
+        'Танай байгууллагын бүртгэлээс татгалзсан байна. Дэлгэрэнгүй мэдээллийг холбоо барьж авна уу.',
       type: 'ORGANIZATION_DECLINED',
       metadata: { status: UserStatus.DECLINED },
     });
@@ -127,8 +127,8 @@ export class NotificationService {
   ) {
     return this.create({
       userId: employerId,
-      title: 'New Application Received',
-      description: `${studentName} has applied for your internship: ${internshipTitle}`,
+      title: 'Шинэ өргөдөл хүлээн авлаа',
+      description: `${studentName} таны дадлага хийх хүсэлт гаргасан: ${internshipTitle}`,
       type: 'NEW_APPLICATION',
       metadata: {
         applicationId,
@@ -148,8 +148,8 @@ export class NotificationService {
   ) {
     return this.create({
       userId: studentId,
-      title: 'Application Status Updated',
-      description: `Your application for "${internshipTitle}" has been updated from ${oldStatus} to ${newStatus}`,
+      title: 'Өрөгдөлийн статус шинэчлэгдсэн',
+      description: `Таны "${internshipTitle}"-д зориулсан өргөдлийг ${oldStatus}-с ${newStatus} болгон шинэчилсэн.`,
       type: 'APPLICATION_STATUS_CHANGED',
       metadata: {
         applicationId,
@@ -169,8 +169,8 @@ export class NotificationService {
   ) {
     return this.create({
       userId: studentId,
-      title: 'Application Accepted!',
-      description: `Congratulations! Your application for "${internshipTitle}" at ${employerName} has been accepted.`,
+      title: 'Өргөдлийг хүлээн авлаа!',
+      description: `Баяр хүргэе! Таны ${employerName}-д "${internshipTitle}" хамрагдах өргөдлийг хүлээн авлаа.`,
       type: 'APPLICATION_ACCEPTED',
       metadata: {
         applicationId,
@@ -188,8 +188,8 @@ export class NotificationService {
   ) {
     return this.create({
       userId: studentId,
-      title: 'Application Not Selected',
-      description: `We regret to inform you that your application for "${internshipTitle}" at ${employerName} was not selected.`,
+      title: 'Таны өрөгдөлд татгалзсан хариу өгсөн байна',
+      description: `Таны ${employerName}-д "${internshipTitle}"-д хамрагдах өргөдөлд татгалзсан хариу өгсөн байна.`,
       type: 'APPLICATION_REJECTED',
       metadata: {
         applicationId,
@@ -207,8 +207,8 @@ export class NotificationService {
   ) {
     return this.create({
       userId: studentId,
-      title: 'Interview Stage Reached',
-      description: `Good news! Your application for "${internshipTitle}" at ${employerName} has moved to the interview stage. Watch for further communication.`,
+      title: 'Өргөдлийг хүлээн авлаа',
+      description: `Сайн мэдээ! Таны ${employerName}-д "${internshipTitle}"-д хамрагдах өргөдөл зөвшөөрөгдлөө. Цаашдын харилцаа холбоог анхаарч үзээрэй.`,
       type: 'APPLICATION_INTERVIEW',
       metadata: {
         applicationId,
@@ -226,17 +226,17 @@ export class NotificationService {
     internshipTitle: string,
     status: ApplicationStatus,
   ) {
-    let title = 'Application Status Updated';
-    let description = `You have updated ${studentName}'s application for "${internshipTitle}" to ${status}`;
+    let title = 'Өргөдөлийн статус шинэчлэгдсэн';
+    let description = `Та ${studentName}-н "${internshipTitle}"-д зориулсан өргөдлийг ${status} болгож шинэчилсэн байна.`;
     let type = 'EMPLOYER_APPLICATION_UPDATE';
 
     if (status === ApplicationStatus.APPROVED) {
-      title = 'Application Accepted Confirmation';
-      description = `You have accepted ${studentName}'s application for "${internshipTitle}".`;
+      title = 'Өргөдөлийг баталгаажууллаа';
+      description = `Та ${studentName}-н "${internshipTitle}"-н өргөдлийг хүлээн авлаа.`;
       type = 'EMPLOYER_APPLICATION_ACCEPTED';
     } else if (status === ApplicationStatus.REJECTED) {
-      title = 'Application Rejected Confirmation';
-      description = `You have rejected ${studentName}'s application for "${internshipTitle}".`;
+      title = 'Өргөдөлд татгалзсан';
+      description = `Та ${studentName}-н "${internshipTitle}"-д зориулсан өргөдлийг татгалзсан байна.`;
       type = 'EMPLOYER_APPLICATION_REJECTED';
     }
 
