@@ -102,8 +102,13 @@ export class UsersService {
     }
 
     await user.update({ status: UserStatus.VERIFIED });
+
+    // Send notification to the organization about approval
+    await this.notificationService.notifyOrganizationApproved(id);
+
     return this.findOne(id);
   }
+
   async declineOrganisation(id: number) {
     const user = await this.userModel.findByPk(id);
     if (!user) {
@@ -115,8 +120,13 @@ export class UsersService {
     }
 
     await user.update({ status: UserStatus.DECLINED });
+
+    // Send notification to the organization about decline
+    await this.notificationService.notifyOrganizationDeclined(id);
+
     return this.findOne(id);
   }
+
   async findOrganisations(query: OrganisationFilterDto) {
     const where: any = { role: UserRole.ORGANISATION };
 

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op, WhereOptions } from 'sequelize';
 import { Notification } from 'src/models/notification.model';
-import { User, UserRole } from 'src/models/user.model';
+import { User, UserRole, UserStatus } from 'src/models/user.model';
 import { paginate } from 'src/utils/pagination';
 import {
   CreateNotificationDto,
@@ -74,6 +74,7 @@ export class NotificationService {
     const notification = await this.findOne(id);
     await notification.destroy();
   }
+
   async notifyAdmin(organizationId: number, organizationName: string) {
     const adminUsers = await this.userModel.findAll({
       where: { role: UserRole.ADMIN },
@@ -90,5 +91,27 @@ export class NotificationService {
     });
 
     await Promise.all(notificationPromises);
+  }
+
+  async notifyOrganizationApproved(organizationId: number) {
+    return this.create({
+      userId: organizationId,
+      title: 'Organization Approved',
+      description:
+        'Your organization has been approved. You can now access all features.',
+      type: 'ORGANIZATION_APPROVED',
+      metadata: { status: UserStatus.VERIFIED },
+    });
+  }
+
+  async notifyOrganizationDeclined(organizationId: number) {
+    return this.create({
+      userId: organizationId,
+      title: 'Organization Registration Declined',
+      description:
+        'Your organization registration has been declined. Please contact support for more information.',
+      type: 'ORGANIZATION_DECLINED',
+      metadata: { status: UserStatus.DECLINED },
+    });
   }
 }
