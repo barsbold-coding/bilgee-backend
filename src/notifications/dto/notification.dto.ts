@@ -24,6 +24,9 @@ export class CreateNotificationDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @IsOptional()
+  metadata: any;
 }
 
 export class UpdateNotificationDto {

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { QueryDto } from 'src/globals/dto/query.dto';
+import { NotificationService } from 'src/notifications/notification.service';
 import { paginate } from 'src/utils/pagination';
 import { User, UserRole, UserStatus } from '../models/user.model';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +18,7 @@ export class UsersService {
   constructor(
     @InjectModel(User)
     private userModel: typeof User,
+    private notificationService: NotificationService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -39,10 +41,19 @@ export class UsersService {
         ? UserStatus.VERIFIED
         : UserStatus.PENDING;
 
-    return this.userModel.create({
+    const user = await this.userModel.create({
       ...createUserDto,
       status,
     });
+
+    if (createUserDto.role === UserRole.ORGANISATION) {
+      await this.notificationService.notifyAdmin(
+        user.id,
+        createUserDto.name || createUserDto.email,
+      );
+    }
+
+    return user;
   }
 
   async findAll(query: QueryDto) {
