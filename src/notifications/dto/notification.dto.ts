@@ -1,9 +1,21 @@
-import { IsNotEmpty, IsString, IsOptional, IsDate } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsDate,
+  IsNumber,
+  IsBoolean,
+} from 'class-validator';
+import { QueryDto } from 'src/globals/dto/query.dto';
 
 export class CreateNotificationDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+
+  @IsOptional()
+  @IsNumber()
+  userId: number;
 
   @IsNotEmpty()
   @IsString()
@@ -30,4 +42,10 @@ export class UpdateNotificationDto {
   @IsOptional()
   @IsDate()
   seenAt?: Date;
+}
+
+export class NotificationQueryDto extends QueryDto {
+  @IsOptional()
+  @IsBoolean()
+  seen?: boolean;
 }

@@ -8,7 +8,9 @@ import {
 } from 'sequelize-typescript';
 import { User } from './user.model';
 
-@Table
+@Table({
+  tableName: 'Notification',
+})
 export class Notification extends Model<Notification> {
   @Column({
     type: DataType.INTEGER,
@@ -41,6 +43,13 @@ export class Notification extends Model<Notification> {
     allowNull: false,
   })
   description: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  seen: boolean;
 
   @Column({
     type: DataType.DATE,

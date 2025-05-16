@@ -1,8 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op, WhereOptions } from 'sequelize';
 import { Notification } from 'src/models/notification.model';
+import { paginate } from 'src/utils/pagination';
 import {
   CreateNotificationDto,
+  NotificationQueryDto,
   UpdateNotificationDto,
 } from './dto/notification.dto';
 
@@ -13,8 +16,19 @@ export class NotificationService {
     private notificationModel: typeof Notification,
   ) {}
 
-  async findAll() {
-    return this.notificationModel.findAll();
+  async findAll(userId: number, query: NotificationQueryDto) {
+    const where: WhereOptions = {
+      userId,
+    };
+
+    if (query.seen) {
+      where.seen = query.seen;
+    }
+
+    return this.notificationModel.findAll({
+      ...paginate(query),
+      where,
+    });
   }
 
   async findAllByUserId(userId: number) {
@@ -49,7 +63,7 @@ export class NotificationService {
   async markAsSeen(id: number): Promise<Notification> {
     const notification = await this.findOne(id);
 
-    await notification.update({ seenAt: new Date() });
+    await notification.update({ seenAt: new Date(), seen: true });
     return notification;
   }
 
